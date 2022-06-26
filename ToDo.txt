@@ -1,0 +1,5 @@
+- Edge view te tıklanablir çıkış olucak.
+- Edge view da tıkladnığı zaman fonksiyana gidecek.
+- Fonksiyon gelen yerde ki doluyu boşa çevirecek.
+
+// if ile eğer değer  dolu is tıklablir yapıalvlie ya da boş sa da tıklansın ama bir yere gitmsin
