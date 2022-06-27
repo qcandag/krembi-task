@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
   <head>
     <title>HTML Table Generator</title>
     <link
@@ -100,6 +101,7 @@
       }
     </style>
   </head>
+
   <body>
     @if(session.has('alert'))
     <div id="alert-div" class="alert alert-success">
@@ -280,17 +282,7 @@
     </div>
 
     <a href="/gate1"> <input type="submit" class="button" value="Kapı 1" /> </a>
-    <a href="/gate2">
-      <input type="submit" class="button2" value="Kapı 2" />
-    </a>
+    <a href="/gate2"><input type="submit" class="button2" value="Kapı 2" /></a>
 
-    <script>
-      const kapi1 = document.querySelector(".kapi1");
-      const kapi2 = document.querySelector(".kapi2");
-
-      function kapitikladi() {
-        console.log("kapi1");
-      }
-    </script>
   </body>
 </html>
