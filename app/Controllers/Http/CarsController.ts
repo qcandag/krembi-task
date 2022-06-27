@@ -4,19 +4,24 @@ import Database from '@ioc:Adonis/Lucid/Database'
 //import Route from '@ioc:Adonis/Core/Route'
 export default class CarsController {
     
-
+    // Main view
     async index ({ view }){
+
+        // DB Data
         const cars = await Database.from('cars').select('*')
-        return view.render('includes/test', {
+
+        return view.render('includes/main', {
             cars: cars
             
         })
         
     }
 
-    async kapi1 ({session,  response }){
+    // Gate 1
+    async gate1 ({session,  response }){
         
         session.clear()
+
         // DB Search
         const carsC1 = await Database.from('cars').select('C1')
         const carsC2 = await Database.from('cars').select('C2')
@@ -43,10 +48,13 @@ export default class CarsController {
                 session.put('alert', 'Car parked successfully')       
                 return response.redirect('/')
 
-            }else if ( i1>4  && i1<9){
+            }  // If there is no empty car park go from here:  
+            else if ( i1>4  && i1<9){
+
                 let incondition = true;
                 for( let i2 = 0 ; incondition === true; i2++){
                     if ( i2 <= 4 && array[1][i2].C2 === 'BOŞ'){
+
                         await Database
                             .from('cars')
                             .where('id', i2)
@@ -55,23 +63,24 @@ export default class CarsController {
                         condition = false
                         session.put('alert', 'Car parked successfully')  
                         return response.redirect('/')
+
                     }else if (i2 > 4){
                         incondition = false;
                     }
                 }
-            }else if (i1 > 8) {
+            }   // And if gate is full break the loop and continue
+            else if (i1 > 8) {
                 condition = false;
             }
             
         }
 
-        console.log("GATE 1 is FULL")
         session.put('alert', 'GATE 1 is FULL') 
-        console.log(session.store.values.alert)
         return response.redirect('/')
     }
     
-    async kapi2 ({ session, response }){
+    // Gate 2
+    async gate2 ({ session, response }){
 
         session.clear()
         // DB Search
@@ -89,7 +98,6 @@ export default class CarsController {
         for( i1 <= length0; condition === true;  i1++){
             
             if (i1 <= 4 && array[1][i1].C4 === "BOŞ" ){
-                // const empty = `C4-${i}`
 
                 await Database
                     .from('cars')
@@ -100,7 +108,9 @@ export default class CarsController {
                 session.put('alert', 'Car parked successfully')       
                 return response.redirect('/')
 
-            }else if ( i1>4  && i1<9){
+            }
+                // If there is no empty car park go from here: 
+            else if ( i1>4  && i1<9){
                 let incondition = true;
                 for( let i2 = 0 ; incondition === true; i2++){
                     if ( i2 <= 4 && array[0][i2].C3 === 'BOŞ'){
@@ -116,27 +126,35 @@ export default class CarsController {
                         incondition = false;
                     }
                 }
-            }else if (i1 > 8) {
+            } // And if gate is full break the loop and continue
+            else if (i1 > 8) {
                 condition = false;
             }
             
         }
 
-        console.log("GATE 2 is FULL")
         session.put('alert', 'GATE 2 is FULL') 
-        console.log(session.store.values.alert)
+
         return response.redirect('/')
 
     }
     
-    async cik ({ session, response, params }){
+    // Exit
+    async exit ({ session, response, params }){
+
+        // Split the params
         const car = (params.id).split('-')
+
+        // Car location
         const id = car[1]
         const column =  await (car[0]).toString()
+
+        // DB Process
         await Database
                 .from('cars')
                 .where('id', id)
                 .update(column, "BOŞ")
+
         session.put('alert', 'The car has successfully exited')  
         response.redirect('/')
     }
